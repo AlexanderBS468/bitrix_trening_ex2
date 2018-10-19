@@ -9,4 +9,5 @@ $MESS["T_IBLOCK_DESC_NEWS_SHARE_SYSTEM"] = "Используемые соц. з�
 $MESS["T_IBLOCK_DESC_NEWS_SHARE_SHORTEN_URL_LOGIN"] = "Логин для bit.ly";
 $MESS["T_IBLOCK_DESC_NEWS_SHARE_SHORTEN_URL_KEY"] = "Ключ для для bit.ly";
 $MESS['T_IBLOCK_SPECIAL_DATE'] = "Установить свойство страницы specialdate";
+$MESS['T_IBLOCK_ID_IBLOCK_REL_CANONICAL'] = "ID информационного блока для rel=canonical";
 ?>

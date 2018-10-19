@@ -26,6 +26,7 @@ IncludeTemplateLangFile(__FILE__);
 	</style>
 	<![endif]-->
 
+	<?$APPLICATION->ShowMeta("specialdate")?>
 	<title><?$APPLICATION->ShowTitle()?></title>
 </head>
 <body>

@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Helpik";
+$arDirProperties = Array(
+
+);
+?>

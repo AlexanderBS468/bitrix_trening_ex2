@@ -8,11 +8,14 @@
 
 define("IBLOCK_PRODUCTS_ID", 2);
 define("ELEM_SHOW_COUNTER", 2);
+define("GROUP_CONTENT", 6);
 
 // [ex2-50] Проверка при деактивации товара
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));
 // ex2-51 Изменение данных в письме
 AddEventHandler('main', 'OnBeforeEventSend', Array("MyClass", "my_OnBeforeEventSend"));
+// [ex2-95] Упростить меню в адмистративном разделе для контент-менеджера
+AddEventHandler("main", "OnBuildGlobalMenu", ["MyClass", "MyOnBuildGlobalMenu"]);
 
 
 class MyClass
@@ -63,5 +66,24 @@ class MyClass
 			"ITEM_ID" => $arFields['ID'],
 			"DESCRIPTION" => "Замена данных в отсылаемом письме – " . $arFields['AUTHOR'],
 		));
+	}
+// [ex2-95] Упростить меню в адмистративном разделе для контент-менеджера
+	function MyOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
+	{
+		global $USER;
+		if(in_array(GROUP_CONTENT, $USER->GetUserGroupArray()) && !in_array('1', $USER->GetUserGroupArray()) ) {
+			foreach ($aGlobalMenu as $key => $val) {
+				if ($aGlobalMenu[$key] != 'global_menu_content') {
+					// Убрать "Рабочий стол"
+					unset($aGlobalMenu['global_menu_desktop']);
+					foreach($aModuleMenu as $key => $v){
+						if($aModuleMenu[$key]['parent_menu'] != 'global_menu_content'
+						|| $aModuleMenu[$key]['items_id'] == 'menu_iblock') {
+							unset($aModuleMenu[$key]);
+						}
+					}
+				}
+			}
+		}
 	}
 }

@@ -5,7 +5,6 @@
  * Date: 27.10.2018
  * Time: 16:42
  */
-echo 'TEST';
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
 class Simplecomponetn extends CBitrixComponent {

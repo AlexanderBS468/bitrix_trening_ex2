@@ -8,10 +8,9 @@ $APPLICATION->SetTitle("simplecomp_97");
 	Array(
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
-		"CODE_PROPERTY_PRODUCT" => "COMPANY",
-		"IBLOCKS_CATALOG_ID" => "2",
-		"IBLOCKS_CLASSIFIER_ID" => "8",
-		"TEMPLATE_DETAIL" => "1"
+		'IBLOCKS_NEWS_ID' => '1',
+		'IBLOCKS_NEWS_CODE_PROPERTY' => 'AUTHOR',
+		'USER_CODE_PROPERTY' => 'UF_AUTHOR_TYPE',
 	)
 );?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

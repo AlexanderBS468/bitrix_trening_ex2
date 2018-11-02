@@ -1,0 +1,3 @@
+<?
+$MESS["MESS_PARAMETR"] = "";
+?>

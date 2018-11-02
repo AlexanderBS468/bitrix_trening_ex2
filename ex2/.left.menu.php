@@ -20,6 +20,13 @@ $aMenuLinks = Array(
 		Array(),
 		Array(),
 		""
+	),
+	Array(
+		"simplecomp_81",
+		"/ex2/simplecomp_81/",
+		Array(),
+		Array(),
+		""
 	)
 );
 ?>

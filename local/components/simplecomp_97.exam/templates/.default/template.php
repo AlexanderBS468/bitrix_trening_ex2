@@ -2,11 +2,20 @@
 ---<br><br>
 <b><?=GetMessage("MSG_AUTHIRS_AND_NEWS")?></b><br>
 <ul>
-	<?#var_dump($arResult)?>
-	<?foreach ($arResult["ITEMS"] as $arItems):?>
+	<?/*
+	#========================================================
+	global $USER;
+	if ($USER->IsAdmin()) {
+	    echo '<pre id="counter__ID" style="display:none;">';
+	        var_dump($arResult);
+	    echo '</pre>';
+	}
+	#========================================================
+	*/?>
+	<?foreach ($arResult["AUTHORS"] as $arItems):?>
 		<li>
 			<div><?echo ('[' . $arItems['ID'] . '] - ' . $arItems['LOGIN']);?></div>
-			<?foreach ($arItems["NEWS_ELEM"] as $Items):?>
+			<?foreach ($arItems["ITEMS"] as $Items):?>
 				<ul>
 					<li>
 						<?echo (' - ' . $Items['NAME']);?>

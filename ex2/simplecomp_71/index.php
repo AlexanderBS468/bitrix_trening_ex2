@@ -1,18 +1,18 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("simplecomp_81");
+$APPLICATION->SetTitle("simplecomp_71");
 ?>
 <?$APPLICATION->IncludeComponent(
-	"simplecomp_81.exam",
+	"simplecomp_71.exam",
 	"",
 	Array(
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 
-		'IBLOCKS_CATALOG_ID' => '2',
-		'IBLOCKS_CLASSIFIER_ID' => '8',
-		'TEMPLATE_DETAIL' => 'catalog_exam/#SECTION_ID#/#ELEMENT_ID#',
 		"CODE_PROPERTY_PRODUCT" => "COMPANY",
+		"IBLOCKS_CATALOG_ID" => "2",
+		"IBLOCKS_CLASSIFIER_ID" => "8",
+		"TEMPLATE_DETAIL" => "?"
 	)
 );?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

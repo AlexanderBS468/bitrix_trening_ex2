@@ -13,7 +13,7 @@ class Simplecomponetn2 extends CBitrixComponent {
 		$this->arParams['IBLOCKS_CATALOG_ID'] = (int) $this->arParams['IBLOCKS_CATALOG_ID'];
 		$this->arParams['IBLOCKS_CLASSIFIER_ID'] = (int) $this->arParams['IBLOCKS_CLASSIFIER_ID'];
 		$this->arParams['URL_TEMPLATE_DETAIL'] = $this->arParams['TEMPLATE_DETAIL'];
-		$this->arParams['CODE_PROPERTY_PRODUCT'];
+		$this->arParams['CODE_PROPERTY_PRODUCT'] = trim($this->arParams['CODE_PROPERTY_PRODUCT']);
 		if(!$this->arParams['CACHE_TIME'])
 			$this->arParams['CACHE_TIME'] = 36000000;
 	}

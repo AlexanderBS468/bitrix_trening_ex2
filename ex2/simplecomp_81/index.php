@@ -11,7 +11,7 @@ $APPLICATION->SetTitle("simplecomp_81");
 
 		'IBLOCKS_CATALOG_ID' => '2',
 		'IBLOCKS_CLASSIFIER_ID' => '8',
-		'TEMPLATE_DETAIL' => 'catalog_exam/#SECTION_ID#/#ELEMENT_ID#',
+		'TEMPLATE_DETAIL' => 'catalog_exam/#SECTION_ID#/#ELEMENT_CODE#',
 		"CODE_PROPERTY_PRODUCT" => "COMPANY",
 	)
 );?>

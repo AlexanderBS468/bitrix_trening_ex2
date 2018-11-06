@@ -8,14 +8,15 @@
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
 use Bitrix\Main\Localization\Loc,
-	Bitrix\Main\Loader;
+	Bitrix\Main\Loader,
+	Bitrix\Main\Context;
 
 Loc::loadMessages(__FILE__);
 
 class Simplecomponetn_ex2_81 extends CBitrixComponent {
 	protected $items;
 	protected $categories;
-
+	protected $itemsFilter;
 
 	protected function handlerArParams() {
 		$this->arParams['IBLOCKS_CATALOG_ID'] = filter_var($this->arParams['IBLOCKS_CATALOG_ID'], FILTER_VALIDATE_INT);
@@ -49,8 +50,12 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			"CHECK_PERMISSIONS" => "Y",
 			$notEmptyRef => false
 		];
-		$arSelect = ["ID", "IBLOCK_ID", "NAME", "DETAIL_PAGE_URL"];
 
+		if($this->itemsFilter) {
+			$arFilter[] = $this->itemsFilter;
+		}
+
+		$arSelect = ["ID", "IBLOCK_ID", "NAME", "DETAIL_PAGE_URL"];
 		$resEl = CIBlockElement::GetList($sort, $arFilter, false, false, $arSelect);
 		$props = ['PRICE', 'MATERIAL', $refPropCode,];
 
@@ -59,6 +64,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			$resEl->SetUrlTemplates($this->arParams['TEMPLATE_DETAIL']);
 		}
 
+		$result = [];
 
 		while ($res = $resEl->GetNextElement(false, false))
 		{
@@ -71,10 +77,10 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 					return in_array($key, ['ID', 'NAME', 'VALUE']);
 				}, ARRAY_FILTER_USE_KEY);
 			}
-			$items[$item['ID']] = $item;
+			$result[$item['ID']] = $item;
 		}
 
-		return $items;
+		return $result;
 	}
 
 	protected function getCategoriesForItems() {
@@ -92,14 +98,14 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 
 		$res = CIBlockElement::GetList($sort, $filter, false, false, $select);
 
-		$items = [];
+		$result = [];
 
 		while ($ob = $res->fetch())
 		{
-			$items[$ob['ID']] = $ob;
+			$result[$ob['ID']] = $ob;
 		}
 
-		return $items;
+		return $result;
 	}
 
 	protected function collectCategoryIds()
@@ -123,22 +129,43 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 		return $result;
 	}
 
-//	protected function getCompany() {
-//		$arFilter = [
-//			"IBLOCK_ID" => $this->arParams['IBLOCKS_CLASSIFIER_ID'],
-//			"ACTIVE" => "Y",
-//			"CHECK_PERMISSIONS" => "Y",
-//		];
-//		$arSelect = ['ID', "NAME"];
-//
-//		$resClass = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
-//
-//		while ($ob = $resClass->fetch())
-//		{
-//			$item[$ob['ID']] = $ob;
-//		}
-//		return $item;
-//	}
+	protected function getFilterLink() {
+		$request = Context::getCurrent()->getRequest();
+		$uri = new Bitrix\Main\Web\Uri($request->getRequestUri());
+
+		if (!$this->itemsFilter) {
+			$messageID = 'Фильтровать';
+			$uri->addParams(['F' => 'Y']);
+		}
+		else {
+			$messageID = 'Очистить фильтр';
+			$uri->deleteParams(['F']);
+		}
+		return [
+			'URL' => $uri->getUri(),
+			'TITLE' => $uri->getUri() . ' = ' . $messageID,
+		];
+	}
+
+	protected function initFilter() {
+		$request = Context::getCurrent()->getRequest();
+
+		$this->itemsFilter = null;
+
+		if ($request->get('F')) {
+			$this->itemsFilter = [
+				'LOGIC' => 'OR',
+				[
+					'<=PROPERTY_PRICE' => 1700,
+					'PROPERTY_MATERIAL' => 'Дерево, ткань',
+				],
+				[
+					'<=PROPERTY_PRICE' => 1500,
+					'PROPERTY_MATERIAL' => 'Металл, пластик',
+				]
+			];
+		}
+	}
 
 	protected function setTitle($title)
 	{
@@ -160,15 +187,18 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 				throw new Exception(Loc::getMessage('IBLOCK_MODULE_NOT_INSTALLED'));
 			}
 
-			if ($this->startResultCache())
+			$this->initFilter();
+
+
+			if ($this->itemsFilter || $this->startResultCache())
 			{
 				$this->items = $this->getProducts();
 				$this->categories = $this->getCategoriesForItems();
-
 				$result = [
 					'ITEMS' => $this->items,
 					'COMPANY' => $this->categories
 				];
+				$result['FILTER'] = $this->getFilterLink();
 
 				$this->arResult = array_merge($this->arResult, $result);
 

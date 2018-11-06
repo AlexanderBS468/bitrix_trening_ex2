@@ -8,6 +8,9 @@ if ($USER->IsAdmin()) {
     echo '</pre>';
 }
 #========================================================?>
+<div>
+	<a href="<?=$arResult['FILTER']['URL']?>"><?=$arResult['FILTER']['TITLE']?></a>
+</div>
 <?if ($arResult['COMPANY']):?>
 	---<br><br>
 	<b><?=GetMessage("MSG_CATALOG_EX81")?></b><br>

@@ -69,6 +69,17 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 		while ($res = $resEl->GetNextElement(false, false))
 		{
 			$item = $res->GetFields();
+
+			$arButtons = CIBlock::GetPanelButtons(
+				$item["IBLOCK_ID"],
+				$item["ID"],
+				0,
+				array("SECTION_BUTTONS"=>false, "SESSID"=>false)
+			);
+			$item["ADD_LINK"] = $arButtons["edit"]["add_element"]["ACTION_URL"];
+			$item["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
+			$item["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
+
 			foreach ($props as $propCode)
 			{
 				$arrayProps = $res->GetProperty($propCode);

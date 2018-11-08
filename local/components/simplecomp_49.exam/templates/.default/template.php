@@ -1,10 +1,15 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?
+use Bitrix\Main\Localization\Loc;
 
+Loc::loadMessages(__FILE__);
+$arItemsProducts = [];
+?>
 <?#========================================================
 global $USER;
 if ($USER->IsAdmin()) {
     echo '<pre id="counter__ID" style="display:none;">';
-        var_dump($arResult);
+        print_r($arResult);
     echo '</pre>';
 }
 #========================================================?>
@@ -21,7 +26,15 @@ if ($USER->IsAdmin()) {
 				<?if ($itemCompany['ITEMS']):?>
 					<ul>
 						<?foreach ($itemCompany['ITEMS'] as $item):?>
-							<li>
+							<?if(!in_array($item, $arItemsProducts)):?>
+								<?$arItemsProducts[] = $item;?>
+								<?
+								$this->AddEditAction($item, $arResult['ITEMS'][$item]['ADD_LINK'], CIBlock::GetArrayByID($arResult['ITEMS'][$item]["IBLOCK_ID"], "ELEMENT_ADD"));
+								$this->AddEditAction($item, $arResult['ITEMS'][$item]['EDIT_LINK'], CIBlock::GetArrayByID($arResult['ITEMS'][$item]["IBLOCK_ID"], "ELEMENT_EDIT"));
+								$this->AddDeleteAction($item, $arResult['ITEMS'][$item]['DELETE_LINK'], CIBlock::GetArrayByID($arResult['ITEMS'][$item]["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" =>Loc::getMessage('ELEM_DELETE_CONFIRM')));
+								?>
+							<?endif?>
+							<li id="<?=$this->GetEditAreaId($item);?>" class="<?=$item?>">
 								<?echo $arResult['ITEMS'][$item]['NAME'] . ' - ' .
 									$arResult['ITEMS'][$item]['PROPERTIES']['PRICE']['VALUE']  . ' - ' .
 									$arResult['ITEMS'][$item]['PROPERTIES']['MATERIAL']['VALUE'] . ' (' .

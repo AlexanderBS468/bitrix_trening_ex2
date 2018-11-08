@@ -88,7 +88,8 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 					return in_array($key, ['ID', 'NAME', 'VALUE']);
 				}, ARRAY_FILTER_USE_KEY);
 			}
-			$result[$item['ID']] = $item;
+			$result['IBLOCK_TYPE_ID'] = $item['IBLOCK_TYPE_ID'];
+			$result['ITEMS'][$item['ID']] = $item;
 		}
 
 		return $result;
@@ -206,7 +207,8 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 				$this->items = $this->getProducts();
 				$this->categories = $this->getCategoriesForItems();
 				$result = [
-					'ITEMS' => $this->items,
+					'IBLOCK_TYPE_ID' => $this->items['IBLOCK_TYPE_ID'],
+					'ITEMS' => $this->items['ITEMS'],
 					'COMPANY' => $this->categories
 				];
 				$result['FILTER'] = $this->getFilterLink();
@@ -215,7 +217,35 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 
 				$this->includeComponentTemplate();
 			}
-
+			global $APPLICATION;
+// Oki doci      https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=3852&LESSON_PATH=3913.4776.5052.3852
+			if ($APPLICATION->GetShowIncludeAreas())
+			{
+				$this->AddIncludeAreaIcons(
+					Array( //массив кнопок toolbar'a
+						Array(
+							"ID" => "SIMPLECOMP_49_ex2-100",
+							"TITLE" => "ИБ в админке",
+							"URL" => '/bitrix/admin/iblock_element_admin.php?IBLOCK_ID=' . $this->arParams['IBLOCKS_CATALOG_ID'] .'&type=' .
+								$this->arResult['IBLOCK_TYPE_ID']. '&lang='. LANGUAGE_ID .'&find_el_y=Y',
+							//или
+							// javascript:MyJSFunction ()
+							//CSS-класс с иконкой "ICON" => "menu-delete",
+							//массив пунктов контекстного меню "MENU" => Array(),
+							//тултип кнопки "HINT" => array(
+							//	"TITLE" => "Заголовок тултипа",
+							//	"TEXT" => "Текст тултипа" //HTML допускается
+							//),
+							//тултип кнопки контекстного меню "HINT_MENU" => array (
+							//	"TITLE" => "Заголовок тултипа",
+							//	"TEXT" => "Текст тултипа" //HTML допускается
+							//),
+				            "IN_PARAMS_MENU" => true, //показать в контекстном меню
+				            //"IN_MENU" => true //показать в подменю компонента
+				        )
+				    )
+				);
+			}
 			$this->setTitle(Loc::getMessage(
 				'EX2_71_SIMPLECOMP2_EXAM__TITLE',
 				['#COUNT#' => count($this->arResult['COMPANY'])]

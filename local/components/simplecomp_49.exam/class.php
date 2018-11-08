@@ -225,7 +225,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 					Array( //массив кнопок toolbar'a
 						Array(
 							"ID" => "SIMPLECOMP_49_ex2-100",
-							"TITLE" => "ИБ в админке",
+							"TITLE" => Loc::getMessage('EX2_100_MESS_TOOLBAR_ICON'),
 							"URL" => '/bitrix/admin/iblock_element_admin.php?IBLOCK_ID=' . $this->arParams['IBLOCKS_CATALOG_ID'] .'&type=' .
 								$this->arResult['IBLOCK_TYPE_ID']. '&lang='. LANGUAGE_ID .'&find_el_y=Y',
 							//или

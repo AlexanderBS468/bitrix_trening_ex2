@@ -18,7 +18,7 @@ if ($USER->IsAdmin()) {
 </div>
 <?if ($arResult['COMPANY']):?>
 	---<br><br>
-	<b><?=GetMessage("MSG_CATALOG_EX81")?></b><br>
+	<b><?=Loc::getMessage("MSG_CATALOG_EX81")?></b><br>
 	<ul>
 		<?foreach ($arResult['COMPANY'] as $itemCompany):?>
 			<li>
@@ -46,4 +46,11 @@ if ($USER->IsAdmin()) {
 			</li>
 		<?endforeach?>
 	</ul>
+	<?$this->SetViewTarget('max_min_price');?>
+		<div style="color:red; margin: 34px 15px 35px 15px">
+			<?=Loc::getMessage('MSG_MIN_PRICE')?><?=$arResult['MIN_PRICE']?><br><br>
+			<?=Loc::getMessage('MSG_MAX_PRICE')?><?=$arResult['MAX_PRICE']?>
+		</div>
+	<?$this->EndViewTarget();?>
+
 <?endif?>

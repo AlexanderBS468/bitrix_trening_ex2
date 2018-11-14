@@ -17,13 +17,17 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 	protected $items;
 	protected $categories;
 	protected $itemsFilter;
-	protected $maxprice;
+	protected $resources = ['CLASSIFIERS' => []];
 
 	protected function handlerArParams() {
 		$this->arParams['IBLOCKS_CATALOG_ID'] = filter_var($this->arParams['IBLOCKS_CATALOG_ID'], FILTER_VALIDATE_INT);
 		$this->arParams['IBLOCKS_CLASSIFIER_ID'] = filter_var($this->arParams['IBLOCKS_CLASSIFIER_ID'] , FILTER_VALIDATE_INT);
 		$this->arParams['TEMPLATE_DETAIL'] = trim($this->arParams['TEMPLATE_DETAIL']);
 		$this->arParams['CODE_PROPERTY_PRODUCT'] = trim($this->arParams['CODE_PROPERTY_PRODUCT']);
+		$this->arParams['COUNT_ELEMENTS_ON_PAGE'] = filter_var($this->arParams['COUNT_ELEMENTS_ON_PAGE'], FILTER_VALIDATE_INT);
+
+		$this->arParams['NAVIGATION'] = CDBResult::GetNavParams(array('nPageSize' => $this->arParams['COUNT_ELEMENTS_ON_PAGE']));
+
 		$this->arParams['CACHE_TIME'] = filter_var($this->arParams['CACHE_TIME'], FILTER_VALIDATE_INT);
 		if(!$this->arParams['CACHE_TIME'])
 			$this->arParams['CACHE_TIME'] = 36000000;
@@ -57,8 +61,12 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			$arFilter[] = $this->itemsFilter;
 		}
 
+		$navigation = array(
+			'nPageSize' => $this->arParams['COUNT_ELEMENTS_ON_PAGE'],
+		);
+
 		$arSelect = ["ID", "IBLOCK_ID", "NAME", "DETAIL_PAGE_URL"];
-		$resEl = CIBlockElement::GetList($sort, $arFilter, false, false, $arSelect);
+		$resEl = CIBlockElement::GetList($sort, $arFilter, false, $navigation, $arSelect);
 		$props = ['PRICE', 'MATERIAL', $refPropCode,];
 
 		if ($this->arParams['TEMPLATE_DETAIL'])
@@ -94,6 +102,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			$result['IBLOCK_TYPE_ID'] = $item['IBLOCK_TYPE_ID'];
 			$result['ITEMS'][$item['ID']] = $item;
 		}
+		$this->resources['CLASSIFIERS'] = $resEl;
 		$first_el = reset($result['ITEMS']);
 		$end_el = end($result['ITEMS']);
 		$result['MIN_PRICE'] = $first_el['PROPERTIES']['PRICE']['VALUE'];
@@ -191,6 +200,11 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 		global $APPLICATION;
 		$APPLICATION->SetTitle($title);
 	}
+	protected function setNavPageClassification() {
+		$navStr = $this->resources["CLASSIFIERS"]->GetPageNavString(Loc::getMessage('EX2_60_CLASS_NAV_CLASSIFIERS'));
+		$this->arResult["NAV"] = $navStr;
+
+	}
 
 	public function executeComponent() {
 		try
@@ -209,7 +223,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			$this->initFilter();
 
 
-			if ($this->itemsFilter || $this->startResultCache())
+			if ($this->itemsFilter || $this->startResultCache(false, [$this->arParams["NAVIGATION"]]))
 			{
 				$this->items = $this->getProducts();
 				$this->categories = $this->getCategoriesForItems();
@@ -221,7 +235,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 					'MIN_PRICE' => $this->items['MIN_PRICE'],
 				];
 				$result['FILTER'] = $this->getFilterLink();
-
+				$this->setNavPageClassification();
 				$this->arResult = array_merge($this->arResult, $result);
 				$this->includeComponentTemplate();
 			}

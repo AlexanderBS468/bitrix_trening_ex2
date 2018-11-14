@@ -20,6 +20,10 @@ $arComponentParameters = array(
 			"PARENT" => "BASE",
 			"NAME" => GetMessage("CODE_PROPERTY_PRODUCT"),
 		),
+		"COUNT_ELEMENTS_ON_PAGE" => array(
+			"PARENT" => "BASE",
+			"NAME" => GetMessage("COUNT_ELEMENTS_ON_PAGE"),
+		),
 		"CACHE_TIME"  =>  Array("DEFAULT"=>36000000),
 	),
 );

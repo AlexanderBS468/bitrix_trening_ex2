@@ -113,6 +113,9 @@ $APPLICATION->IncludeFile(
 		"ACTIVE_COMPONENT" => "Y"
 	)
 );?>
+<!--				ex2-82 -->
+					<?$APPLICATION->ShowViewContent('max_min_price');?>
+<!--				ex2-82 end-->
 				<div class="content-block">
 					<div class="content-block-inner">
 						<h3><?=GetMessage('CFT_NEWS')?></h3>

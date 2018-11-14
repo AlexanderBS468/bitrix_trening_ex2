@@ -5,18 +5,19 @@ use Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
 $arItemsProducts = [];
 ?>
-<?#========================================================
+<p><?echo 'Метка времени: ' . time();?></p>
+<?/*#========================================================
 global $USER;
 if ($USER->IsAdmin()) {
     echo '<pre id="counter__ID" style="display:none;">';
         print_r($arResult);
     echo '</pre>';
 }
-#========================================================?>
-<div>
-	<a href="<?=$arResult['FILTER']['URL']?>"><?=$arResult['FILTER']['TITLE']?></a>
-</div>
+#========================================================*/?>
 <?if ($arResult):?>
+	<div>
+		<a href="<?=$arResult['FILTER']['URL']?>"><?=$arResult['FILTER']['TITLE']?></a>
+	</div>
 	---<br><br>
 	<b><?=Loc::getMessage("MSG_CATALOG_EX81")?></b><br>
 	<ul>

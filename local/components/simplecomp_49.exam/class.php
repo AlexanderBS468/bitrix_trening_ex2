@@ -18,6 +18,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 	protected $categories;
 	protected $itemsFilter;
 	protected $resources = ['CLASSIFIERS' => []];
+	protected $cachePath = '/ex2-107';
 
 	protected function handlerArParams() {
 		$this->arParams['IBLOCKS_CATALOG_ID'] = filter_var($this->arParams['IBLOCKS_CATALOG_ID'], FILTER_VALIDATE_INT);
@@ -207,6 +208,8 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 	}
 
 	public function executeComponent() {
+		global $APPLICATION;
+		global $CACHE_MANAGER;
 		try
 		{
 			$this->handlerArParams();
@@ -222,9 +225,9 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 
 			$this->initFilter();
 
-
-			if ($this->itemsFilter || $this->startResultCache(false, [$this->arParams["NAVIGATION"]]))
+			if ($this->itemsFilter || $this->startResultCache(false, [$this->arParams["NAVIGATION"]], $this->cachePath))
 			{
+				$CACHE_MANAGER->RegisterTag('iblock_id_3');
 				$this->items = $this->getProducts();
 				$this->categories = $this->getCategoriesForItems();
 				$result = [
@@ -239,7 +242,6 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 				$this->arResult = array_merge($this->arResult, $result);
 				$this->includeComponentTemplate();
 			}
-			global $APPLICATION;
 // Oki doci      https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=3852&LESSON_PATH=3913.4776.5052.3852
 			if ($APPLICATION->GetShowIncludeAreas())
 			{

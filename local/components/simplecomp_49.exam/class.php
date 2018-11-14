@@ -17,6 +17,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 	protected $items;
 	protected $categories;
 	protected $itemsFilter;
+	protected $maxprice;
 
 	protected function handlerArParams() {
 		$this->arParams['IBLOCKS_CATALOG_ID'] = filter_var($this->arParams['IBLOCKS_CATALOG_ID'], FILTER_VALIDATE_INT);
@@ -42,7 +43,8 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 		$refPropCode = $this->arParams['CODE_PROPERTY_PRODUCT'];
 		$notEmptyRef = '!PROPERTY_' . $this->arParams['CODE_PROPERTY_PRODUCT'];
 
-		$sort = ['NAME' => 'ASC', 'SORT' => 'ASC'];
+//		$sort = ['NAME' => 'ASC', 'SORT' => 'ASC'];
+		$sort = ['PROPERTY_PRICE' => 'ASC'];
 
 		$arFilter = [
 			"IBLOCK_ID" => $this->arParams['IBLOCKS_CATALOG_ID'],
@@ -68,6 +70,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 
 		while ($res = $resEl->GetNextElement(false, false))
 		{
+
 			$item = $res->GetFields();
 
 			$arButtons = CIBlock::GetPanelButtons(
@@ -91,6 +94,10 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 			$result['IBLOCK_TYPE_ID'] = $item['IBLOCK_TYPE_ID'];
 			$result['ITEMS'][$item['ID']] = $item;
 		}
+		$first_el = reset($result['ITEMS']);
+		$end_el = end($result['ITEMS']);
+		$result['MIN_PRICE'] = $first_el['PROPERTIES']['PRICE']['VALUE'];
+		$result['MAX_PRICE'] = $end_el['PROPERTIES']['PRICE']['VALUE'];
 
 		return $result;
 	}
@@ -209,12 +216,13 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 				$result = [
 					'IBLOCK_TYPE_ID' => $this->items['IBLOCK_TYPE_ID'],
 					'ITEMS' => $this->items['ITEMS'],
-					'COMPANY' => $this->categories
+					'COMPANY' => $this->categories,
+					'MAX_PRICE' => $this->items['MAX_PRICE'],
+					'MIN_PRICE' => $this->items['MIN_PRICE'],
 				];
 				$result['FILTER'] = $this->getFilterLink();
 
 				$this->arResult = array_merge($this->arResult, $result);
-
 				$this->includeComponentTemplate();
 			}
 			global $APPLICATION;

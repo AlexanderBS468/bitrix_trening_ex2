@@ -1,6 +1,6 @@
 <?php
 $arUrlRewrite=array (
-  0 => 
+  0 =>
   array (
     'CONDITION' => '#^/stssync/calendar/#',
     'RULE' => '',
@@ -32,4 +32,12 @@ $arUrlRewrite=array (
     'PATH' => '/rew/index.php',
     'SORT' => 100,
   ),
+  0 =>
+	array (
+		'CONDITION' => '#^/ex2/complexcomponent/#',
+		'RULE' => '',
+		'ID' => 'complexcomp.exam-materials',
+		'PATH' => '/ex2/complexcomponent/index.php',
+		'SORT' => 100,
+	),
 );

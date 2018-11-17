@@ -96,11 +96,11 @@ $arComponentParameters = array(
 			),
 				
 			//добавили новую страницу
-			//"exampage" => array(
-					//"NAME" => GetMessage("EXAM_PAGE"),
-					//DEFAULT
-					//VARIABLES
-			//),
+			"exampage" => array(
+					"NAME" => GetMessage("EXAM_PAGE"),
+					"DEFAULT" => 'exam/new/#PARAM1#/?PARAM2=#PARAM2#',
+					"VARIABLES" => array("PARAM1" , "PARAM2"),
+			),
 				
 				
 		),

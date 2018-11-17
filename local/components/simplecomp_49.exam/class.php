@@ -240,6 +240,7 @@ class Simplecomponetn_ex2_81 extends CBitrixComponent {
 				$result['FILTER'] = $this->getFilterLink();
 				$this->setNavPageClassification();
 				$this->arResult = array_merge($this->arResult, $result);
+//				$this->SetResultCacheKeys(array('IBLOCK_TYPE_ID'));
 				$this->includeComponentTemplate();
 			}
 // Oki doci      https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=3852&LESSON_PATH=3913.4776.5052.3852

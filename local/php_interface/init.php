@@ -6,10 +6,8 @@
  * Time: 18:56
  */
 
-define("IBLOCK_PRODUCTS_ID", 2);
-define("ELEM_SHOW_COUNTER", 2);
-define("GROUP_CONTENT", 6);
-//define("BX_COMP_MANAGED_CACHE", true);
+require_once __DIR__ . '/const.php';
+require_once  __DIR__ . '/agents.php';
 
 // [ex2-50] Проверка при деактивации товара
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyClass", "OnBeforeIBlockElementUpdateHandler"));

@@ -1,4 +1,8 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?
+use Bitrix\Main\Localization\Loc;
+Loc::LoadMessage(__FILE__);
+?>
 <div class="news-detail">
 	<?if($arParams["DISPLAY_PICTURE"]!="N" && is_array($arResult["DETAIL_PICTURE"])):?>
 		<img class="detail_picture" border="0" src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" width="<?=$arResult["DETAIL_PICTURE"]["WIDTH"]?>" height="<?=$arResult["DETAIL_PICTURE"]["HEIGHT"]?>" alt="<?=$arResult["NAME"]?>"  title="<?=$arResult["NAME"]?>" />
@@ -13,6 +17,10 @@
 	<div>
 		<?if($arParams["REPORT_AJAX"] == "Y"):?>
 			<script>
+				BX.message({
+					OPINION:<?=Loc('MESS_T_RESPONSE_OPINION');?>,
+					ERROR_OPINION:<?=Loc('MESS_T_ERROR_AJAX');?>
+				});
 				BX.ready(function () {
 					var report_link = document.getElementById('report_ajax');
 					report_link.onclick = function (e) {
@@ -25,19 +33,19 @@
 							},
 							function (data) {
 								var responce_text = document.getElementById('report_responce');
-								responce_text.innerText = "Ваше мнение учтено, № " + data["ID"];
+								responce_text.innerText = BX.message('OPINION') + data["ID"];
 							},
 							function(data) {
 								var responce_text = document.getElementById('report_responce');
-								responce_text.innerText = 'Ошибка!';
+								responce_text.innerText = BX.message('ERROR_OPINION');
 							}
 						)
 					}
 				});
 			</script>
-			<a id="report_ajax" href="<?=$APPLICATION->GetCurPage();?>">пожаловаться!</a>
+			<a id="report_ajax" href="<?=$APPLICATION->GetCurPage();?>"><?=Loc::getMessage('MESS_T_COMPLAIN');?></a>
 		<?else:?>
-			<a href="<?=$APPLICATION->GetCurPage() . '?TYPE=GET&ID='. $arResult["ID"]?>">пожаловаться!</a>
+			<a href="<?=$APPLICATION->GetCurPage() . '?TYPE=GET&ID='. $arResult["ID"]?>"><?=Loc::getMessage('MESS_T_COMPLAIN');?></a>
 		<?endif;?>
 		<div id="report_responce"></div>
 	</div>

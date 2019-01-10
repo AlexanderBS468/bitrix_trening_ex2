@@ -11,11 +11,12 @@ AddEventHandler("iblock", "OnBeforeIBlockElementAdd", array("ExamHandlers", "OnB
 // [ex2-95] Упростить меню в адмистративном разделе для контент-менеджера
 AddEventHandler("main", "OnBuildGlobalMenu", array("MyClass", "MyOnBuildGlobalMenu"));
 
-//ex2-75
+
 class ExamHandlers
 {
 	function OnBeforeIBlockElementUpdateHandler(&$arFields)
 	{
+		//ex2-75
 		if ($arFields['IBLOCK_ID'] == IBLOCK_NEWS_ID)
 		{
 			if (strpos($arFields['PREVIEW_TEXT'], "калейдоскоп") !== false)
@@ -38,7 +39,25 @@ class ExamHandlers
 
 	function OnBeforeIBlockElementAddHandler(&$arFields)
 	{
+		//ex2-75
+		if ($arFields['IBLOCK_ID'] == IBLOCK_NEWS_ID)
+		{
+			if (strpos($arFields['PREVIEW_TEXT'], "калейдоскоп") !== false)
+			{
+				$arFields['PREVIEW_TEXT'] = str_replace("калейдоскоп", "[...]", $arFields['PREVIEW_TEXT']);
 
+				CEventLog::Add(array(
+					"SEVERITY" => "INFO",
+					"AUDIT_TYPE_ID" => "MY_TYPE_LOG",
+					"MODULE_ID" => "main",
+					"DESCRIPTION" => "Замена слова калейдоскоп на [...], в новости с ID = " . $arFields['ID'],
+				));
+
+				global $APPLICATION;
+				$APPLICATION->throwException("Мы не используем слово калейдоскоп в анонсе");
+				return false;
+			}
+		}
 	}
 }
 

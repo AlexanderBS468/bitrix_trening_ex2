@@ -9,6 +9,39 @@
 	<?if($arParams["DISPLAY_NAME"]!="N" && $arResult["NAME"]):?>
 		<h3><?=$arResult["NAME"]?></h3>
 	<?endif;?>
+
+	<div>
+		<?if($arParams["REPORT_AJAX"] == "Y"):?>
+			<script>
+				BX.ready(function () {
+					var report_link = document.getElementById('report_ajax');
+					report_link.onclick = function (e) {
+						e.preventDefault();
+						BX.ajax.loadJSON(
+							"<?=$APPLICATION->GetCurPage();?>",
+							{
+								TYPE: "AJAX",
+								ID: <?=$arResult["ID"]?>
+							},
+							function (data) {
+								var responce_text = document.getElementById('report_responce');
+								responce_text.innerText = "Ваше мнение учтено, № " + data["ID"];
+							},
+							function(data) {
+								var responce_text = document.getElementById('report_responce');
+								responce_text.innerText = 'Ошибка!';
+							}
+						)
+					}
+				});
+			</script>
+			<a id="report_ajax" href="<?=$APPLICATION->GetCurPage();?>">пожаловаться!</a>
+		<?else:?>
+			<a href="<?=$APPLICATION->GetCurPage() . '?TYPE=GET&ID='. $arResult["ID"]?>">пожаловаться!</a>
+		<?endif;?>
+		<div id="report_responce"></div>
+	</div>
+
 	<div class="news-detail">
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
 		<p><?=$arResult["FIELDS"]["PREVIEW_TEXT"];unset($arResult["FIELDS"]["PREVIEW_TEXT"]);?></p>

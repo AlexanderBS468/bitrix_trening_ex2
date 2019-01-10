@@ -80,12 +80,13 @@ $APPLICATION->IncludeFile(
 				<tr>
 					<td id="banner-image"><div><img src="<?=SITE_TEMPLATE_PATH?>/images/head.jpg" /></div></td>
 					<td id="banner-slogan">
-<?
+						<?$APPLICATION->ShowProperty("slogan_head");?>
+<?/*
 $APPLICATION->IncludeFile(
 	SITE_DIR."include/motto.php",
 	Array(),
 	Array("MODE"=>"html")
-);
+);*/
 ?>
 					</td>
 				</tr>

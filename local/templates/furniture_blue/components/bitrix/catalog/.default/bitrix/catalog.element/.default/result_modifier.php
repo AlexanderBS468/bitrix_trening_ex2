@@ -20,4 +20,8 @@ if (!is_array($arResult['SECTION']))
 
 $arResult['PRICES']['PRICE']['PRINT_VALUE'] = number_format($arResult['PROPERTIES']['PRICE']['VALUE'], 0, '.', ' ');
 $arResult['PRICES']['PRICE']['PRINT_VALUE'] .= ' '.$arResult['PROPERTIES']['PRICECURRENCY']['VALUE_ENUM'];
+
+$arResult["TEXT_FOR_SLOGAN"] = substr($arResult["~PREVIEW_TEXT"],3,50)."...";
+$obComponent = $this->GetComponent();
+$obComponent->SetResultCacheKeys(array("TEXT_FOR_SLOGAN"));
 ?>

@@ -1,0 +1,10 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("ex2-75");
+?><h3>[ех2-75] Проверка текста при изменении новости</h3>
+ <pre><span style="font-size: 11pt;">Добавлены события:
+</span><br><span style="font-size: 11pt;">AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", array("ExamHandlers", "OnBeforeIBlockElementUpdateHandler"));</span><br><span style="font-size: 11pt;">
+AddEventHandler("iblock", "OnBeforeIBlockElementAdd", array("ExamHandlers", "OnBeforeIBlockElementAddHandler"));</span><br><span style="font-size: 11pt;">
+Сам код:
+</span></pre><span style="font-size: 11pt;"> </span><pre><span style="font-size: 11pt;">if ($arFields['IBLOCK_ID'] == IBLOCK_NEWS_ID)</span><br><span style="font-size: 11pt;">{</span><br><span style="font-size: 11pt;">   if (strpos($arFields['PREVIEW_TEXT'], "калейдоскоп") !== false)</span><br><span style="font-size: 11pt;">   {</span><br><span style="font-size: 11pt;">      $arFields['PREVIEW_TEXT'] = str_replace("калейдоскоп", "[...]", $arFields['PREVIEW_TEXT']);</span><br><br><span style="font-size: 11pt;">      CEventLog::Add(array(</span><br><span style="font-size: 11pt;">         "SEVERITY" =&gt; "INFO",</span><br><span style="font-size: 11pt;">         "AUDIT_TYPE_ID" =&gt; "MY_TYPE_LOG",</span><br><span style="font-size: 11pt;">         "MODULE_ID" =&gt; "main",</span><br><span style="font-size: 11pt;">         "DESCRIPTION" =&gt; "Замена слова калейдоскоп на [...], в новости с ID = " . $arFields['ID'],</span><br><span style="font-size: 11pt;">      ));</span><br><br><span style="font-size: 11pt;">      global $APPLICATION;</span><br><span style="font-size: 11pt;">      $APPLICATION-&gt;throwException("Мы не используем слово калейдоскоп в анонсе");</span><br><span style="font-size: 11pt;">      return false;</span><br><span style="font-size: 11pt;">   }</span><br><span style="font-size: 11pt;">}</span></pre><br>
+ <br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

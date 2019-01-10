@@ -37,6 +37,12 @@ $arTemplateParameters = array(
 	),
 );
 
+$arTemplateParameters["REPORT_AJAX"] = array(
+	"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_COMPLAINTS"),
+	"TYPE" => "CHECKBOX",
+	"DEFAULT" => "N",
+);
+
 if ($arCurrentValues["USE_SHARE"] == "Y")
 {
 	$arTemplateParameters["SHARE_HIDE"] = array(
